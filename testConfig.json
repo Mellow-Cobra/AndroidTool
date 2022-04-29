@@ -1,0 +1,56 @@
+{ 
+  "outputfolder": "C:\\Users\\MMR3\\Documents\\Python\\Android Benchmark\\a3r1\\output",
+  "handsets": [{
+    
+   "device": "1",
+   "active": "enable",
+   "serial": "375010008142000055"
+   
+  }],
+  
+  "testapps": [
+    {
+	  
+	  "benchmark": "gfxbench",
+	  "active": "enable",
+	  "package": "gfxbench_vulkan-5.0.0-public_candidate2+corporate.arm64-v8a.armeabi-v7a.x86.x86_64.apk",
+	  "pmlist": "net.kishonti.gfxbench.vulkan.v50000.corporate"
+	  
+    },
+	
+	{
+	  
+	  "benchmark": "geekbench5",
+	  "active": "enable",
+	  "package": "",
+	  "pmlist": ""
+    }
+  ],
+  
+  "testconfig": [
+   { 
+	 "gfxstandard": "enable"
+	 "gpu_frequency_sweep": "disable"
+	 "cpu_frequency_sweep": "disable"
+	 
+	 
+  
+  "gfxbenchtests": [ 
+  
+    {
+	"active": "enable",
+    "workload": "gl_manhattan311_wqhd_off"
+    },
+	
+	{
+    "active": "disable",
+    "workload": "vulkan_5_normal_off"
+    },
+	
+	{
+	"active": "enable",
+    "workload": "gl_trex_off"
+    }
+	]
+	 
+}

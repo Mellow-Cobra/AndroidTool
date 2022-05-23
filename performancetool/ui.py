@@ -46,12 +46,14 @@ class App(QWidget):
         self.adb_command_input_label = QLabel("Enter ADB Command")
         self.adb_command = QLineEdit()
         self.dut_serial = QLineEdit()
+        self.execute_command = QPushButton
         self.device_configuration_tab.layout.addWidget(self.serial_input_label)
         self.device_configuration_tab.layout.addWidget(self.dut_serial)
         self.device_configuration_tab.layout.addWidget(self.adb_command_input_label)
         self.device_configuration_tab.layout.addWidget(self.adb_command)
         self.device_serial = self.dut_serial.text()
         self.command = self.adb_command.text()
+        self.execute_command.click.connect(self.on_click)
         self.device_configuration_tab.setLayout(self.device_configuration_tab.layout)
 
         # Set up ADB Tools Tab
@@ -79,7 +81,7 @@ class Worker():
 
     def __init__(self, adb_command, device_serial):
         self.adb_command = adb_command
-
+        self.serial = device_serial
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

@@ -60,7 +60,6 @@ class App(QWidget):
         self.tools_tab.layout.addWidget(self.root_button)
         self.tools_tab.setLayout(self.tools_tab.layout)
 
-
         self.layout.addWidget(self.tabs)
         self.setLayout(self.layout)
 

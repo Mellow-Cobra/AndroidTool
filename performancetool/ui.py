@@ -83,6 +83,9 @@ class Worker():
         self.adb_command = adb_command
         self.serial = device_serial
 
+
+
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = App()

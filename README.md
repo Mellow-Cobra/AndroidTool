@@ -1,2 +1,2 @@
-# AndroidTool
-performance benchmarking tool
+# ADB_Benchmark_Tool
+Android Benchmarking Tool

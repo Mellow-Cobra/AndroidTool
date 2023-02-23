@@ -4,7 +4,7 @@
 import sys
 from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QLineEdit, \
     QWidget, QPushButton, QMainWindow, QApplication, QGridLayout
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QRunnable
 
 class MainWindow(QWidget):
 
@@ -33,7 +33,8 @@ class MainWindow(QWidget):
 
         self.setLayout(main_layout)
 
-
+class Runner(QRunnable):
+    """Thread class used to run benchmark application"""
 
 app = QApplication(sys.argv)
 w = MainWindow()

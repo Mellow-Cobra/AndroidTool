@@ -33,6 +33,8 @@ class MainWindow(QWidget):
 
         self.setLayout(main_layout)
 
+
+
 app = QApplication(sys.argv)
 w = MainWindow()
 w.show()

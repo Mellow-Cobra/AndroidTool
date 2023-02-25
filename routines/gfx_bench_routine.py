@@ -1,6 +1,6 @@
 
 
-from androidbenchmarktool.adb_cli.adb_comm import ADBCLITool
+from adb_cli.adb_comm import ADBCLITool
 
 class GFXBench:
     """Class method used to run gfx bench Manhattan 3.1"""
@@ -15,5 +15,5 @@ class GFXBench:
 
     def execute(self):
         """Method used to run Manhattan Benchmark"""
-        adb_shell = ADBCLITool(self.benchmark)
-        d
+        adb_shell = ADBCLITool(self.benchmark, self.command, self.serial,
+                               self.target_directory, self.receiver_directory)

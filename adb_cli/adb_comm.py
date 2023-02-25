@@ -8,7 +8,7 @@ import subprocess
 class ADBCLITool:
     """Class for ADB command line tools"""
 
-    def __init__(self, command, serial, target_directory, receiver_directory):
+    def __init__(self, command, serial, target_directory=None, receiver_directory=None):
         """Concstructor"""
         self.command = command
         self.serial = serial

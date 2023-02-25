@@ -1,5 +1,4 @@
 
-
 # Standard Imports
 import sys
 from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QLineEdit, \
@@ -33,8 +32,9 @@ class MainWindow(QWidget):
 
         # GFX Bench Control Sub Panel Layout
         gfx_bench_layout = QVBoxLayout()
-        self.manahattan_311 = QPushButton("Manhattan 3.1")
+        self.manahattan_311 = QPushButton("gl_manhattan311_wqhd_off")
         self.manahattan_311.clicked.connect(self.onclick_manhattan_311)
+        self.benchmark = self.manahattan_311.text()
         self.aztec_ruins_open_gl = QPushButton("Aztec Ruins")
         gfx_bench_layout.addWidget(self.manahattan_311)
         gfx_bench_layout.addWidget(self.aztec_ruins_open_gl)
@@ -80,23 +80,23 @@ class MainWindow(QWidget):
                  serial=self.device_serial.text(),
                  command=self.command.text(),
                  target_directory=self.target_directory.text(),
-                 receiver_directory=self.receiver_directory.text())
+                 receiver_directory=self.receiving_directory.text())
 
 
 class GFXBench(QRunnable):
     """Thread class used to run benchmark application"""
 
-    def __init__(self, benchmark, serial, command, target_directory, reciever_directory):
+    def __init__(self, benchmark, serial, command, target_directory, receiver_directory):
         self.benchmark = benchmark
         self.serial = serial
         self.command = command
         self.target_directory = target_directory
-        self.reciever_directory = reciever_directory
+        self.receiver_directory = receiver_directory
 
     def run(self):
         gfx_bench_thread = GFXBench(benchmark=self.benchmark, command=self.command,
-                                    serial=self.serial,target_directory=self.target_directory,
-                                    reciever_directory=self.reciever_directory)
+                                    serial=self.serial ,target_directory=self.target_directory,
+                                    receiver_directory=self.receiver_directory)
         QThreadPool.start(gfx_bench_thread)
 
 

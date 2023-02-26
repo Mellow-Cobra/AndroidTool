@@ -24,7 +24,7 @@ class SendCommandThread(QRunnable):
         """Method used to run command thread"""
         command_execution_thread = SendCommand(command=self.command,
                                                serial=self.serial)
-        command_execution_thread.execute()
+        command_execution_thread.send_command()
 
 
 class GFXBenchThread(QRunnable):
@@ -43,8 +43,8 @@ class GFXBenchThread(QRunnable):
         gfx_bench_routine = GFXBench(benchmark=self.benchmark, serial=self.serial,
                                      test_config=self.test_config,
                                      target_directory=self.target_directory,
-                                     receiver_directory=r"\\")
-        gfx_bench_routine.execute()
+                                     receiver_directory=self.receiver_directory)
+        gfx_bench_routine.execute_manhattan_test_case()
 class MainWindow(QWidget):
 
     def __init__(self):

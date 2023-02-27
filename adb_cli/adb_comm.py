@@ -31,3 +31,7 @@ class ADBCLITool:
         """Method used to pull files from Android device"""
         subprocess.run(['adb', '-s', f'{self.serial}', 'pull', f'{target_directory}',
                         f'{receiver_directory}'], check=False)
+
+    def adb_logcat_filter(self, regex_string):
+        """Method used to filter ADB logcat events"""
+        return subprocess.run(['adb', '-s', f'{self.serial}', '-d', 'logcat', f'{regex_string}'])

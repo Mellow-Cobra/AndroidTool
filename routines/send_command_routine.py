@@ -11,4 +11,4 @@ class SendCommand:
 
     def send_command(self):
         """Method used to send command to android device"""
-        self.adb_shell.send_command_to_dut(command=self.command)
+        self.adb_shell.execute_command_on_dut(command=self.command)

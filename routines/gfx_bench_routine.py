@@ -2,7 +2,7 @@ import json
 import time
 
 from adb_cli.adb_comm import ADBCLITool
-from constants import GFXBENCH, MANHATTAN, DISCONNECT
+from constants import GFXBENCH, MANHATTAN, DISCONNECT, EGYPT, T_REX
 
 
 class GFXBench:
@@ -23,23 +23,58 @@ class GFXBench:
         self.run_manhattan()
         self.pull_results()
 
+    def execute_egypt_test_case(self):
+        """Method used to run egypt benchmark"""
+        self.load_test_config()
+        self.run_egypt()
+        self.pull_results()
+
+    def execute_t_rex_test_case(self):
+        """Method used to run t-rex benchmark"""
+        self.load_test_config()
+        self.run_t_rex()
+        self.pull_results()
+
     def run_manhattan(self):
-        """Method used to instantiate Android Debug Bridge Comm Manager"""
+        """Method used to instantiate Android Debug Bridge Comm Manager and run manhattan benchmarks"""
         for test_case in self.test_config[GFXBENCH][MANHATTAN]:
             command = f'am  broadcast  -a net.kishonti.testfw.ACTION_RUN_TESTS -n ' \
                       f'net.kishonti.gfxbench.vulkan.v50000.corporate/' \
                       f'net.kishonti.benchui.corporate.CommandLineSession -e test_ids "{test_case}" '
             self.adb_shell = ADBCLITool(serial=self.serial)
-            self.adb_shell.send_command_to_dut(command=command)
-        self.adb_shell.send_command_to_dut(DISCONNECT)
+            self.adb_shell.execute_command_on_dut(command=command)
+            time.sleep(120)
+        self.adb_shell.run_adb_terminal_command(DISCONNECT)
 
+    def run_egypt(self):
+        """Method used to instantiate Android Debug Bridghe Comm Manager and run egypt benchmark"""
+        for test_case in self.test_config[GFXBENCH][EGYPT]:
+            command = f'am  broadcast  -a net.kishonti.testfw.ACTION_RUN_TESTS -n ' \
+                      f'net.kishonti.gfxbench.vulkan.v50000.corporate/' \
+                      f'net.kishonti.benchui.corporate.CommandLineSession -e test_ids "{test_case}" '
+            self.adb_shell = ADBCLITool(serial=self.serial)
+            self.adb_shell.execute_command_on_dut(command=command)
+            self.adb_shell.adb_logcat_filter(regex_string="Runner  : finished: ")
+        self.adb_shell.run_adb_terminal_command(DISCONNECT)
+
+    def run_t_rex(self):
+        """Method used to instantiate Android Debug Bridge Comm Manager and run manhattan benchmarks"""
+        for test_case in self.test_config[GFXBENCH][T_REX]:
+            command = f'am  broadcast  -a net.kishonti.testfw.ACTION_RUN_TESTS -n ' \
+                      f'net.kishonti.gfxbench.vulkan.v50000.corporate/' \
+                      f'net.kishonti.benchui.corporate.CommandLineSession -e test_ids "{test_case}" '
+            self.adb_shell = ADBCLITool(serial=self.serial)
+            self.adb_shell.execute_command_on_dut(command=command)
+            time.sleep(200)
+        self.adb_shell.run_adb_terminal_command(DISCONNECT)
 
     def pull_results(self):
         """Method to pull results from Android Device after running a test"""
         self.adb_shell = ADBCLITool(serial=self.serial)
         self.adb_shell.adb_pull_results(target_directory=self.target_directory,
                                         receiver_directory=self.receiver_directory)
-        self.adb_shell.send_command_to_dut(DISCONNECT)
+        self.adb_shell.execute_command_on_dut(command=f'rm -rR {self.target_directory} ')
+        self.adb_shell.run_adb_terminal_command(DISCONNECT)
 
     def load_test_config(self):
         """Method used to load test config file"""

@@ -1,5 +1,6 @@
 # Standard Imports
 import json
+import logging
 import sys
 from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QLineEdit, \
     QWidget, QPushButton, QMainWindow, QApplication, QGridLayout, \
@@ -44,12 +45,12 @@ class GFXBenchThread(QRunnable):
                                      test_config=self.test_config,
                                      target_directory=self.target_directory,
                                      receiver_directory=self.receiver_directory)
-        if self.benchmark == "Manhattan":
-            gfx_bench_routine.execute_manhattan_test_case()
+        if self.benchmark == "manhattan":
+            gfx_bench_routine.execute_test_case()
         elif self.benchmark == "egypt":
-            gfx_bench_routine.execute_egypt_test_case()
+            gfx_bench_routine.execute_test_case()
         elif self.benchmark == "t-rex":
-            gfx_bench_routine.execute_t_rex_test_case()
+            gfx_bench_routine.execute_test_case()
 
 
 class MainWindow(QWidget):
@@ -80,13 +81,13 @@ class MainWindow(QWidget):
         # GFX Bench Control Sub Panel Layout
         gfx_high_level_test_layout = QVBoxLayout()
         self.manahattan_311 = QPushButton("Manhattan")
-        self.manahattan_311.clicked.connect(self.onclick_manhattan)
+        self.manahattan_311.clicked.connect(lambda: self.onclick_benchmark(self.manahattan_311))
         self.aztec_ruins_open_gl = QPushButton("Aztec Ruins")
         self.car_chase = QPushButton("Car Chase")
         self.t_rex = QPushButton("T-Rex")
         self.egypt = QPushButton("egypt")
-        self.egypt.clicked.connect(self.onclick_egypt)
-        self.t_rex.clicked.connect(self.onclick_t_rex)
+        self.egypt.clicked.connect(lambda: self.onclick_benchmark(self.egypt))
+        self.t_rex.clicked.connect(lambda: self.onclick_benchmark(self.t_rex))
         gfx_high_level_test_layout.addWidget(self.manahattan_311)
         gfx_high_level_test_layout.addWidget(self.aztec_ruins_open_gl)
         gfx_high_level_test_layout.addWidget(self.car_chase)
@@ -153,35 +154,17 @@ class MainWindow(QWidget):
         main_layout.addWidget(self.tabs)
         self.setLayout(main_layout)
 
-    def onclick_manhattan(self):
+    def onclick_benchmark(self, button):
         """Event handler for benchmark manhattan"""
-        self.benchmark = self.manahattan_311.text()
-        gfx_bench_thread = GFXBenchThread(benchmark=self.benchmark,
+        benchmark = button.text().lower()
+        logging.info(benchmark)
+        gfx_bench_thread = GFXBenchThread(benchmark=benchmark,
                                           serial=self.device_serial.text(),
                                           test_config=self.test_config_directory.text(),
                                           target_directory=self.target_directory.text(),
                                           receiver_directory=self.receiving_directory.text())
         self.thread_pool.start(gfx_bench_thread)
 
-    def onclick_egypt(self):
-        """Event handler for benchmark egypt"""
-        self.benchmark = self.egypt.text()
-        gfx_bench_thread = GFXBenchThread(benchmark=self.benchmark,
-                                          serial=self.device_serial.text(),
-                                          test_config=self.test_config_directory.text(),
-                                          target_directory=self.target_directory.text(),
-                                          receiver_directory=self.receiving_directory.text())
-        self.thread_pool.start(gfx_bench_thread)
-
-    def onclick_t_rex(self):
-        """Event handler for benchmark egypt"""
-        self.benchmark = self.t_rex.text().lower()
-        gfx_bench_thread = GFXBenchThread(benchmark=self.benchmark,
-                                          serial=self.device_serial.text(),
-                                          test_config=self.test_config_directory.text(),
-                                          target_directory=self.target_directory.text(),
-                                          receiver_directory=self.receiving_directory.text())
-        self.thread_pool.start(gfx_bench_thread)
     def on_send_command(self):
         """Event Handler for sending command to Android Device"""
         send_command_thread = SendCommandThread(command=self.command_to_send.text(),

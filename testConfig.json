@@ -7,7 +7,7 @@
   "gfx_bench": {
       "manhattan":["gl_manhattan311_wqhd_off", "gl_manhattan31_off"],
       "aztec": ["vulkan_5_normal_off"],
-      "t_rex": ["gl_trex_off", "gl_trex"],
+      "t-rex": ["gl_trex_off", "gl_trex"],
       "egypt": ["gl_egypt_off","gl_egypt"]
     }
 }
